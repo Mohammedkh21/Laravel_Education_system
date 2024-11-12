@@ -16,14 +16,11 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->route('locale');
-
-        if (! in_array($locale, ['en', 'ar'])) {
-            return response()->json(['error' => 'Invalid locale'], 400);
+        if ($request->hasHeader('Accept-Language')) {
+            app()->setLocale($request->header('Accept-Language'));
+        } elseif (session()->has('locale')) {
+            app()->setLocale(session('locale'));
         }
-
-        // Set the locale
-        App::setLocale($locale);
 
         return $next($request);
     }
