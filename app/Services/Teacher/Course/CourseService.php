@@ -24,4 +24,8 @@ class CourseService
     function destroy($course ){
         return $course->delete();
     }
+
+    function timeLine(){
+        return auth()->user()->courses()->with(['assignments','quizzes'])->get();
+    }
 }

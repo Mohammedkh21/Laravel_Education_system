@@ -89,6 +89,7 @@ Route::prefix('teacher')->group(function (){
             Route::get('/students/{student}',[\App\Http\Controllers\Teacher\Course\Assignment\AssignmentController::class,'downloadStudentSubmit']);
             Route::post('/students/{student}',[\App\Http\Controllers\Teacher\Course\Assignment\AssignmentController::class,'rate']);
         });
+        Route::get('courses/timeline',[\App\Http\Controllers\Teacher\Course\CourseController::class,'timeLine']);
         Route::apiResource('courses.quizzes.questions',\App\Http\Controllers\Teacher\Course\Quiz\Question\QuestionController::class);
         Route::apiResource('courses.quizzes',\App\Http\Controllers\Teacher\Course\Quiz\QuizController::class);
         Route::apiResource('courses.assignments.documents', \App\Http\Controllers\Teacher\Course\Assignment\Document\DocumentController::class)
