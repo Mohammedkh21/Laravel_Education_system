@@ -21,9 +21,9 @@ Route::prefix('student')->group(function (){
             Route::get('/mark_as_read',[\App\Http\Controllers\Student\Notification\NotificationController::class,'markAsRead']);
         });
         Route::prefix('camp')->group(function (){
-           Route::get('/',[\App\Http\Controllers\Student\Camp\CampController::class,'show']);
-           Route::get('/{camp}',[\App\Http\Controllers\Student\Camp\CampController::class,'join']);
-           // remove from camp
+            Route::get('/',[\App\Http\Controllers\Student\Camp\CampController::class,'show']);
+            Route::get('/{camp}',[\App\Http\Controllers\Student\Camp\CampController::class,'join']);
+            // remove from camp
         });
         Route::prefix('courses')->group(function (){
             Route::get('/timeline',[\App\Http\Controllers\Student\Course\CourseController::class,'timeline']);
@@ -34,6 +34,7 @@ Route::prefix('student')->group(function (){
             Route::prefix('{course}')
                 ->middleware('can:access,course')
                 ->group(function (){
+                    Route::get('advertisements',\App\Http\Controllers\Student\Course\Advertisement\AdvertisementController::class);
                     Route::prefix('/lectures')->group(function (){
                         Route::get('/',[\App\Http\Controllers\Student\Course\Lecture\LectureController::class,'index']);
                         Route::get('/{lecture}',[\App\Http\Controllers\Student\Course\Lecture\LectureController::class,'show']);
@@ -98,6 +99,7 @@ Route::prefix('teacher')->group(function (){
         Route::apiResource('courses.lectures.documents', \App\Http\Controllers\Teacher\Course\Lectuer\Document\DocumentController::class)
             ->except(['update']);
         Route::apiResource('courses.lectures',\App\Http\Controllers\Teacher\Course\Lectuer\LectureController::class);
+        Route::apiResource('courses.advertisements',\App\Http\Controllers\Teacher\Course\Advertisement\AdvertisementController::class);
         Route::apiResource('courses',\App\Http\Controllers\Teacher\Course\CourseController::class);
     });
 });
@@ -116,8 +118,8 @@ Route::prefix('admin')->group(function (){
         Route::get('index',[\App\Http\Controllers\Admin\AuthController::class,'index']);
         Route::post('update',[\App\Http\Controllers\Admin\AuthController::class,'update']);
         Route::prefix('notifications')->group(function (){
-           Route::get('/',[\App\Http\Controllers\Admin\Notification\NotificationController::class,'index']);
-           Route::get('/mark_as_read',[\App\Http\Controllers\Admin\Notification\NotificationController::class,'markAsRead']);
+            Route::get('/',[\App\Http\Controllers\Admin\Notification\NotificationController::class,'index']);
+            Route::get('/mark_as_read',[\App\Http\Controllers\Admin\Notification\NotificationController::class,'markAsRead']);
         });
         Route::prefix('camps')->group(function (){
             Route::prefix('requests')->group(function (){
