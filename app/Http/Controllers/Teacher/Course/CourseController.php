@@ -73,4 +73,10 @@ class CourseController extends Controller implements HasMiddleware
             $this->courseService->destroy($course)
         );
     }
+
+    public function timeLine(){
+        return response()->json(
+            $this->courseService->timeLine()
+        );
+    }
 }

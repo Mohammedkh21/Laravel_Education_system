@@ -24,11 +24,12 @@ class CourseStoreRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
+            'type' => 'in:free,paid'
         ];
     }
 
     function getData()
     {
-        return $this->only(['description','title']);
+        return $this->only(['description','title','type']);
     }
 }

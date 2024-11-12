@@ -24,11 +24,12 @@ class CourseUpdateRequest extends FormRequest
         return [
             'title' => 'sometimes|required|string',
             'description' => 'sometimes|required|string',
+            'type' => 'in:free,paid'
         ];
     }
 
     function getData()
     {
-        return $this->only(['description','title']);
+        return $this->only(['description','title','type']);
     }
 }
