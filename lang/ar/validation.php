@@ -174,6 +174,7 @@ return [
         'time' => 'الوقت',
         'result_visible' => 'نتيجة مرئية',
         'level' => 'المستوى',
-        'specialization' => 'التخصص'
+        'specialization' => 'التخصص',
+        'url'=>'الرابط'
     ],
 ];

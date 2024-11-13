@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StudentUpdateRequest;
 use App\Http\Requests\TeacherRegisterRequest;
+use App\Http\Requests\TeacherUpdateRequest;
 use App\Models\Teacher;
 use App\Services\Teacher\AuthService;
 use Illuminate\Http\Request;
@@ -43,7 +44,7 @@ class AuthController extends Controller
         );
     }
 
-    function update(StudentUpdateRequest $request){
+    function update(TeacherUpdateRequest $request){
         return response()->json(
             $this->authService->update(
                 auth()->user() , $request->getData()
