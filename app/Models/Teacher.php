@@ -33,4 +33,9 @@ class Teacher extends Authenticatable
     public function courses(){
         return $this->hasMany(Course::class);
     }
+
+    function communications()
+    {
+        return $this->hasMany(Communication::class);
+    }
 }
