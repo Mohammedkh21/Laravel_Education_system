@@ -13,6 +13,10 @@ class QuizAttempt extends Model
         'id','student_id','quiz_id','data','created_at','updated_at'
     ];
 
+    protected $casts = [
+      'data'  => 'json'
+    ];
+
     function student()
     {
         return $this->belongsTo(Student::class);
