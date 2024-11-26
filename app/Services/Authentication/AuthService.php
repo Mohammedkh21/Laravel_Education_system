@@ -14,7 +14,11 @@ class AuthService
 {
     function register($class,$data){
         $data['password'] = Hash::make($data['password']);
-        return $class::create($data);
+        $user =  $class::create($data);
+        return [
+          'user' => $user,
+          'token'  => $user->createToken('MyApp')->plainTextToken
+        ];
     }
 
     function login($class , $data){
@@ -24,7 +28,10 @@ class AuthService
                 'message' => ['Invalid credentials.'],
             ]);
         }
-        return $user->createToken('MyApp')->plainTextToken;
+        return [
+            'user' => $user,
+            'token'  => $user->createToken('MyApp')->plainTextToken
+        ];
     }
 
     function logout($request){

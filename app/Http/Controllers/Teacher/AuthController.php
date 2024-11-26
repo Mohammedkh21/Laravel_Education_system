@@ -26,11 +26,11 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request){
-        $token = $this->authService->login(
+        $login = $this->authService->login(
             Teacher::class ,
             $request->getData()
         );
-        return response()->json(['token' => $token]);
+        return response()->json($login);
     }
 
     public function logout(Request $request){
