@@ -66,8 +66,14 @@ class AuthController extends Controller
                 'otp'=>'required|integer|digits:4'
             ]
         );
+        if ($this->authService->checkOTP($request->input('email'),$request->input('otp'))){
+            return response()->json(
+                true
+            );
+        }
+
         return response()->json(
-            $this->authService->checkOTP($request->input('email'),$request->input('otp'))
+            false , 400
         );
     }
 
