@@ -27,7 +27,7 @@ class AdminRegisterRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'age' => 'required|integer',
             'sex' => 'required|string|in:male,female',
-            'phone_number' => 'required|string|digits_between:7,15',
+            'phone_number' => 'string|digits_between:7,15',
             'role' => 'string|max:255',
         ];
     }

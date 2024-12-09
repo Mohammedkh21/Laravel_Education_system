@@ -27,7 +27,7 @@ class StudentRegisterRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'age' => 'required|integer',
             'sex' => 'required|string|in:male,female',
-            'phone_number' => 'required|digits_between:7,15',
+            'phone_number' => 'digits_between:7,15',
             'level' => 'required|integer|max:12',
         ];
     }
