@@ -19,7 +19,7 @@ class Student extends Authenticatable
 
     // Optionally, add hidden attributes for security
     protected $hidden = [
-        'password', 'id'
+        'password'
     ];
 
     public function camp()

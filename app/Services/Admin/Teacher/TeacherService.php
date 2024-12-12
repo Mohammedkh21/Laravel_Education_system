@@ -17,6 +17,29 @@ class TeacherService
         return $this->admin->teachers();
     }
 
+    function show(Teacher $teacher)
+    {
+        $dbTeacher = Teacher::where('id',$teacher->id)->with([
+            "communications",
+            "courses.students"
+        ])->first();
+
+        $students = $dbTeacher->courses
+            ->flatMap(function ($course) {
+                return $course->students;
+            })
+            ->unique('id');
+        $courses = $dbTeacher->courses->map(function ($course) {
+            return collect($course)->except('students');
+        });
+        return [
+            'teacher' => $teacher,
+            'courses' => $courses,
+            'communications' => $dbTeacher->communications,
+            'students' => $students,
+        ];
+    }
+
 
     function update($data,$teacher)
     {
@@ -25,6 +48,11 @@ class TeacherService
 
     function destroy($teacher){
         return $teacher->delete();
+    }
+
+    function search($name)
+    {
+        return  $this->admin->teachers($name);
     }
 
 }
