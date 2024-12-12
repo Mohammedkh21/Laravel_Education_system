@@ -18,7 +18,7 @@ class Admin extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 'id'
+        'password'
     ];
 
     public function camps()
@@ -26,17 +26,24 @@ class Admin extends Authenticatable
         return $this->morphToMany(Camp::class, 'campable')->withTimestamps();
     }
 
-    public function students()
+    public function students($name = null)
     {
-        return Student::whereIn('camp_id', $this->camps()->pluck('camps.id'))->get();
+        return Student::whereIn('camp_id', $this->camps()->pluck('camps.id'))
+            ->when($name, function ($query, $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->get();
     }
 
-    public function teachers()
+    public function teachers($name = null)
     {
         $camps_id = $this->camps()->pluck('camps.id');
         return Teacher::whereHas('camps', function ($query) use ($camps_id) {
                         $query->whereIn('camps.id', $camps_id);
-                    })->get();
+                    })->when($name, function ($query, $name) {
+                        $query->where('name', 'LIKE', "%{$name}%");
+                    })
+            ->get();
     }
 
     function subscriptionPlan()

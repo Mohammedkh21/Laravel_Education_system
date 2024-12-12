@@ -30,7 +30,7 @@ class StudentController implements HasMiddleware
     function show(Student $student)
     {
         return response()->json(
-            $student
+            $this->studentService->show( $student)
         );
     }
 
@@ -45,6 +45,13 @@ class StudentController implements HasMiddleware
     {
         return response()->json(
             $this->studentService->destroy( $student)
+        );
+    }
+
+    function search($name)
+    {
+        return response()->json(
+            $this->studentService->search( $name)
         );
     }
 
