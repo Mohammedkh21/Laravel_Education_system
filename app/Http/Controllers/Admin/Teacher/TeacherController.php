@@ -33,7 +33,7 @@ class TeacherController implements  HasMiddleware
     function show(Teacher $teacher)
     {
         return response()->json(
-            $teacher
+            $this->teacherService->show( $teacher)
         );
     }
 
@@ -48,6 +48,13 @@ class TeacherController implements  HasMiddleware
     {
         return response()->json(
             $this->teacherService->destroy( $teacher)
+        );
+    }
+
+    function search($name)
+    {
+        return response()->json(
+            $this->teacherService->search( $name)
         );
     }
 }

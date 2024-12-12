@@ -7,11 +7,13 @@ use App\Models\Course;
 class CourseService
 {
 
-    function getAll()
+    function show($course)
     {
-        return auth()->user()->camps()->with('teachers.courses')->get()
-            ->pluck('teachers')
-            ->flatten()
-            ->unique('id');
+        return Course::where('id',$course->id)->with([
+            "lectures",
+            "assignments",
+            "quizzes",
+            "advertisements",
+        ])->get();
     }
 }

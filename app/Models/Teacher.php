@@ -18,7 +18,7 @@ class Teacher extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 'id'
+        'password'
     ];
 
     public function camps()
@@ -32,6 +32,18 @@ class Teacher extends Authenticatable
 
     public function courses(){
         return $this->hasMany(Course::class);
+    }
+
+    function students()
+    {
+        return $this->hasManyThrough(
+          Student::class,
+          Course::class,
+            'id',           // Foreign key on courses table
+            'id',           // Foreign key on students table
+            'id',           // Local key on teachers table
+            'id'
+        );
     }
 
     function communications()
