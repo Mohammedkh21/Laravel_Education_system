@@ -35,13 +35,17 @@ class RequestService
         $model = $request->data->model ;
 
         if ( filter_var($status, FILTER_VALIDATE_BOOLEAN) ){
+            $subscriptionPlan = $admin->subscriptionPlan;
             if ($model == Student::class){
-                $student_limit = $admin->subscriptionPlan->students;
+                $student_limit = $subscriptionPlan->students;
 
-                throw_if($admin->students()->count() > $student_limit,
-                    \Exception::class ,
-                    "you already reached the limit of your subscription plan : $student_limit student",
-                    401);
+                if ($student_limit == 0){
+                    throw_if($admin->students()->count() >= $student_limit,
+                        \Exception::class ,
+                        "you already reached the limit of your subscription plan : $student_limit student",
+                        401
+                    );
+                }
                 $student = $user;
                 if ($student->camp_id){
                     $request->delete();
@@ -50,11 +54,14 @@ class RequestService
                 $student->update(['camp_id'=>$request->data->camp_id]);
             }else{
                 $teacher = $user;
-                $teacher_limit = $admin->subscriptionPlan->teachers;
-                throw_if($admin->teachers()->count() > $teacher_limit,
-                    \Exception::class,
-                    "you already reached the limit of your subscription plan : $teacher_limit teacher",
-                    401);
+                $teacher_limit = $subscriptionPlan->teachers;
+                if ($teacher_limit == 0){
+                    throw_if($admin->teachers()->count() >= $teacher_limit,
+                        \Exception::class,
+                        "you already reached the limit of your subscription plan : $teacher_limit teacher",
+                        401
+                    );
+                }
                 $teacher->camps()->attach($request->data->camp_id);
             }
         }
