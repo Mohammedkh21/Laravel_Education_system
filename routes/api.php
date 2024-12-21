@@ -163,9 +163,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
+Route::get('authInfo',[\App\Http\Controllers\AuthController::class,'authInfo'])->middleware('auth:student,teacher');
+
 Route::prefix('student')->group(function (){
     Route::post('register',[\App\Http\Controllers\Student\AuthController::class,'register']);
-    Route::post('login',[\App\Http\Controllers\Student\AuthController::class,'login']);
+//    Route::post('login',[\App\Http\Controllers\Student\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
         Route::post('/otp',[\App\Http\Controllers\Student\AuthController::class,'sendResitPasswordOTP']);
         Route::post('/check_otp',[\App\Http\Controllers\Student\AuthController::class,'checkOTP']);
@@ -174,7 +178,7 @@ Route::prefix('student')->group(function (){
     });
     Route::middleware('auth:student')->group(function (){
         Route::post('logout',[\App\Http\Controllers\Student\AuthController::class,'logout']);
-        Route::get('index',[\App\Http\Controllers\Student\AuthController::class,'index']);
+//        Route::get('index',[\App\Http\Controllers\Student\AuthController::class,'index']);
         Route::post('update',[\App\Http\Controllers\Student\AuthController::class,'update']);
         Route::prefix('notifications')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\Notification\NotificationController::class,'index']);
@@ -183,7 +187,6 @@ Route::prefix('student')->group(function (){
         Route::prefix('camp')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\Camp\CampController::class,'show']);
             Route::get('/{camp}',[\App\Http\Controllers\Student\Camp\CampController::class,'join']);
-            // remove from camp
         });
         Route::prefix('courses')->group(function (){
             Route::get('/timeline',[\App\Http\Controllers\Student\Course\CourseController::class,'timeline']);
@@ -224,7 +227,7 @@ Route::prefix('student')->group(function (){
 
 Route::prefix('teacher')->group(function (){
     Route::post('register',[\App\Http\Controllers\Teacher\AuthController::class,'register']);
-    Route::post('login',[\App\Http\Controllers\Teacher\AuthController::class,'login']);
+//    Route::post('login',[\App\Http\Controllers\Teacher\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
         Route::post('/otp',[\App\Http\Controllers\Teacher\AuthController::class,'sendResitPasswordOTP']);
         Route::post('/check_otp',[\App\Http\Controllers\Teacher\AuthController::class,'checkOTP']);
@@ -233,7 +236,7 @@ Route::prefix('teacher')->group(function (){
     });
     Route::middleware('auth:teacher')->group(function (){
         Route::post('logout',[\App\Http\Controllers\Teacher\AuthController::class,'logout']);
-        Route::get('index',[\App\Http\Controllers\Teacher\AuthController::class,'index']);
+//        Route::get('index',[\App\Http\Controllers\Teacher\AuthController::class,'index']);
         Route::post('update',[\App\Http\Controllers\Teacher\AuthController::class,'update']);
         Route::prefix('notifications')->group(function (){
             Route::get('/',[\App\Http\Controllers\Teacher\Notification\NotificationController::class,'index']);
