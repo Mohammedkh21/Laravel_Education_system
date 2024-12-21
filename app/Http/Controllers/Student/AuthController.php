@@ -24,13 +24,13 @@ class AuthController extends Controller
         return response()->json($student);
     }
 
-    public function login(LoginRequest $request){
-        $login = $this->authService->login(
-            Student::class ,
-            $request->getData()
-        );
-        return response()->json($login);
-    }
+//    public function login(LoginRequest $request){
+//        $login = $this->authService->login(
+//            Student::class ,
+//            $request->getData()
+//        );
+//        return response()->json($login);
+//    }
 
     public function logout(Request $request){
         $this->authService->logout($request);
