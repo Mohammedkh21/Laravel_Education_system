@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\Camp;
+namespace App\Http\Controllers\Admin\Camp;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CampStoreRequest;

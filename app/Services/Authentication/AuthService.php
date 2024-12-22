@@ -4,6 +4,9 @@ namespace App\Services\Authentication;
 
 
 use App\Mail\OtpMail;
+use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,8 +24,27 @@ class AuthService
         ];
     }
 
-    function login($class , $data){
-        $user = $class::where('email',$data['email'])->first();
+//    function login($class , $data){
+//        $user = $class::where('email',$data['email'])->first();
+//        if (!$user || !Hash::check($data['password'] , $user->password)) {
+//            throw ValidationException::withMessages([
+//                'message' => ['Invalid credentials.'],
+//            ]);
+//        }
+//        return [
+//            'user' => $user,
+//            'token'  => $user->createToken('MyApp')->plainTextToken
+//        ];
+//    }
+
+    function login($data){
+        $user =
+            Student::where('email',$data['email'])->first()
+                ??
+            Teacher::where('email',$data['email'])->first()
+                ??
+            Admin::where('email',$data['email'])->first() ;
+
         if (!$user || !Hash::check($data['password'] , $user->password)) {
             throw ValidationException::withMessages([
                 'message' => ['Invalid credentials.'],
@@ -30,6 +52,7 @@ class AuthService
         }
         return [
             'user' => $user,
+            'type' => class_basename($user::class) ,
             'token'  => $user->createToken('MyApp')->plainTextToken
         ];
     }
