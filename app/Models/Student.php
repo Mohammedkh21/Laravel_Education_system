@@ -14,7 +14,7 @@ class Student extends Authenticatable
     use HasFactory , HasApiTokens, SoftDeletes,Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'camp_id', 'password', 'sex', 'phone_number', 'age', 'level', 'created_at','updated_at'
+        'name', 'email', 'camp_id','camp_name', 'password', 'sex', 'age', 'level', 'created_at','updated_at', 'status'
     ];
 
     // Optionally, add hidden attributes for security

@@ -10,7 +10,7 @@ class SubscriptionPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-      'id','name','teachers'.'students'.'created_at','updated_at'
+      'id','name','teachers','students','created_at','updated_at'
     ];
 
     function admins()
