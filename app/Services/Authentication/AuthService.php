@@ -4,6 +4,7 @@ namespace App\Services\Authentication;
 
 
 use App\Mail\OtpMail;
+use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -40,7 +41,9 @@ class AuthService
         $user =
             Student::where('email',$data['email'])->first()
                 ??
-            Teacher::where('email',$data['email'])->first() ;
+            Teacher::where('email',$data['email'])->first()
+                ??
+            Admin::where('email',$data['email'])->first() ;
 
         if (!$user || !Hash::check($data['password'] , $user->password)) {
             throw ValidationException::withMessages([
