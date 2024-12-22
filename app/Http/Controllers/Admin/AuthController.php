@@ -27,7 +27,6 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request){
         $login = $this->authService->login(
-            Admin::class ,
             $request->getData()
         );
         return response()->json($login);
