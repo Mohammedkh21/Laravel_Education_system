@@ -26,6 +26,7 @@ class TeacherRegisterRequest extends FormRequest
             'email' => 'required|email|unique:teachers,email',
             'password' => 'required|string|min:8|confirmed',
             'age' => 'required|integer',
+            'camp_id' => 'required|integer',
             'sex' => 'required|string|in:male,female',
             'phone_number' => 'string|digits_between:7,15',
             'specialization' => 'required|string|max:255',

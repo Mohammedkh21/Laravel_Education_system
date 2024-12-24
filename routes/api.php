@@ -186,8 +186,8 @@ Route::prefix('student')->group(function (){
         });
         Route::prefix('camp')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\Camp\CampController::class,'show']);
+            Route::get('/getAllJoinReq',[\App\Http\Controllers\Student\Camp\CampController::class,'getAllJoinRequest']);
             Route::get('/{camp}',[\App\Http\Controllers\Student\Camp\CampController::class,'join']);
-            Route::get('/requests',[\App\Http\Controllers\Student\Camp\CampController::class,'getAllJoinRequest']);
         });
         Route::prefix('courses')->group(function (){
             Route::get('/timeline',[\App\Http\Controllers\Student\Course\CourseController::class,'timeline']);

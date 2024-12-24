@@ -19,7 +19,8 @@ class AuthController extends Controller
     public function register(StudentRegisterRequest $request){
         $student = $this->authService->register(
             Student::class,
-            $request->getData()
+            $request->getData(),
+            $request->input('camp_id')
         );
         return response()->json($student);
     }

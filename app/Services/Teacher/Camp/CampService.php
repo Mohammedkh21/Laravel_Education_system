@@ -42,7 +42,7 @@ class CampService
         );
 
         Notification::send($camp->admins, new joinCampRequest($camp,'Teacher',auth()->user() ,$request->id));
-        return true;
+        return $request;
     }
 
     function forget($camp_id)

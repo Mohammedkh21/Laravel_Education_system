@@ -37,10 +37,10 @@ class CampService
         );
 
         Notification::send($camp->admins, new joinCampRequest($camp,'Student',auth()->user() ,$request->id));
-        return true;
+        return $request;
     }
 
-    function getAllJoinRequest($user){
+    function getAllJoinRequest(){
         $user = auth()->user();
         return $user->requests()->where('type', 'join_camp')
             ->get();

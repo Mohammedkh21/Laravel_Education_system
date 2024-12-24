@@ -25,9 +25,9 @@ class CampController extends Controller
         );
     }
 
-    public function getAllJoinRequest(Camp $camp){
+    public function getAllJoinRequest(){
         return response()->json(
-            $this->campService->getAllJoinRequest($camp)
+            $this->campService->getAllJoinRequest()
         );
     }
 

@@ -5,8 +5,10 @@ namespace App\Services\Authentication;
 
 use App\Mail\OtpMail;
 use App\Models\Admin;
+use App\Models\Camp;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Services\Student\CampService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,11 +17,15 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
-    function register($class,$data){
+    function register($class,$data,$camp_id){
         $data['password'] = Hash::make($data['password']);
         $user =  $class::create($data);
+        auth()->login($user);
+        $camp_service = $class == Student::class ?  new CampService() : new \App\Services\Teacher\Camp\CampService($user) ;
+        $join_camp = $camp_service->joinCamp(Camp::find($camp_id));
         return [
           'user' => $user,
+          'join_camp_request'=>$join_camp,
           'token'  => $user->createToken('MyApp')->plainTextToken
         ];
     }
