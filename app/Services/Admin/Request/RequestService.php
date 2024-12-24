@@ -63,6 +63,7 @@ class RequestService
                     );
                 }
                 $teacher->camps()->attach($request->data->camp_id);
+                $request->delete();
             }
         }
 

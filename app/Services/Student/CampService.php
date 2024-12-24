@@ -40,5 +40,11 @@ class CampService
         return true;
     }
 
+    function getAllJoinRequest($user){
+        $user = auth()->user();
+        return $user->requests()->where('type', 'join_camp')
+            ->get();
+    }
+
 
 }
