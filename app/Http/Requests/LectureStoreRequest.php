@@ -25,7 +25,7 @@ class LectureStoreRequest extends FormRequest
             'title'=>'required|string',
             'description'=>'required|string',
             'content'=>'required',
-            'files.*' => 'sometimes|required|file|mimes:pdf,doc,docx,ppt,pptx|max:2048',
+            'files.*' => 'file|mimes:pdf,doc,docx,ppt,pptx|max:2048',
         ];
     }
 
