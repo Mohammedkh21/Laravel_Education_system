@@ -2,6 +2,8 @@
 
 namespace App\Services\Student\Quiz;
 
+use Illuminate\Support\Facades\Storage;
+
 class QuizService
 {
 
@@ -43,7 +45,11 @@ class QuizService
     function attemptQuestions($course,$quiz)
     {
         $quizAttempt = $this->attempt($course,$quiz);
-        return $quiz->questions()->get()->makeHidden(['correct_answer']);
+        return $quiz->questions()->with('documents')->get()->each(function ($question) {
+            $question->documents->each(function ($document) {
+                $document->url = url(Storage::url($document->path));
+            });
+        })->makeHidden(['correct_answer']);
     }
 
     function submitAttempt($questions,$course,$quiz)

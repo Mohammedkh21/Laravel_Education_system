@@ -16,6 +16,10 @@ class Document extends Model
 
     protected $hidden = ['path'];
 
+    public function getUrlAttribute()
+    {
+        return url(Storage::url($this->path));
+    }
     public function getVisiblePathAttribute()
     {
         return $this->attributes['path'];
