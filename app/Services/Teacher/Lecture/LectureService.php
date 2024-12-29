@@ -26,6 +26,9 @@ class LectureService
         $documents = [];
         DB::beginTransaction();
         $lecture = $course->lectures()->create($request->getData());
+        if ( !$request->has('files') ){
+            return $lecture;
+        }
         try{
             foreach ($request->file('files') as $file) {
                 $fileName = time() . '_' . $file->getClientOriginalName();
