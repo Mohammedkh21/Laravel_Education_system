@@ -27,6 +27,7 @@ class LectureService
         DB::beginTransaction();
         $lecture = $course->lectures()->create($request->getData());
         if ( !$request->has('files') ){
+            DB::commit();
             return $lecture;
         }
         try{
