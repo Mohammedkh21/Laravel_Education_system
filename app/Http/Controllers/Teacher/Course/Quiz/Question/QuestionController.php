@@ -44,7 +44,7 @@ class QuestionController extends Controller implements  HasMiddleware
     public function store(QuestionStoreRequest $request,Course $course,Quiz $quiz)
     {
         return response()->json(
-            $this->questionService->store($quiz,$request->getData())
+            $this->questionService->store($quiz,$request)
         );
     }
 
@@ -54,7 +54,7 @@ class QuestionController extends Controller implements  HasMiddleware
     public function show(Course $course,Quiz $quiz,Question $question)
     {
         return response()->json(
-            $question
+            $this->questionService->show($quiz,$question)
         );
     }
 
