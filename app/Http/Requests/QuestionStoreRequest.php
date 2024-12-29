@@ -26,12 +26,13 @@ class QuestionStoreRequest extends FormRequest
             'type'=>'required|string',
             'options'=>'required'	,
             'correct_answer'=>'required',
-            'mark'=>'required|integer'
+            'mark'=>'required|integer',
+            'files.*' => 'file|mimes:jpg,jpeg,png,gif,bmp,webp|max:2048',
         ];
     }
 
     function getData()
     {
-        return $this->only(['title'	,'type',	'options'	,'correct_answer',	'mark']);
+        return $this->only(['title'	,'type',	'options'	,'correct_answer',	'mark','files.*']);
     }
 }
