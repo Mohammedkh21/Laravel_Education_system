@@ -14,8 +14,7 @@ class QuestionService
         $questions = $quiz->questions()->with('documents')->get()
             ->each(function ($question) {
                 $question->documents->each(function ($document) {
-                    $document->makeVisible(['path']);
-                    $document->path = url(Storage::url($document->path));
+                    $document->url = url(Storage::url($document->path));
                 });
             });
         return $questions;
@@ -26,9 +25,8 @@ class QuestionService
 
         $question = $quiz->questions()->with('documents')->find($question->id);
         $question->documents->each(function ($document) {
-                $document->makeVisible(['path']);
-                $document->path = url(Storage::url($document->path));
-            });
+            $document->url = url(Storage::url($document->path));
+        });
         return $question;
     }
 
@@ -63,7 +61,7 @@ class QuestionService
             return  $e;
         }
         collect($documents)->each(function ($document){
-            $document->path = url(Storage::url($document->path));
+            $document->url = url(Storage::url($document->path));
         });
         return [
             'question' => $question,
