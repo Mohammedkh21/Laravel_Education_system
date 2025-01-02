@@ -36,7 +36,7 @@ class QuestionService
         DB::beginTransaction();info(1);
         $question = $quiz->questions()->create($request->getData());
         if ( !$request->has('files') ){
-//            DB::commit();
+            DB::commit();
             return $question;
         }info(2);
         try{
