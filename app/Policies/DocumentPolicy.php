@@ -37,7 +37,7 @@ class DocumentPolicy
                         return $assignment->documents;
                     }))->merge($student->assignments->flatMap(function ($assignment) {
                         return $assignment->documents;
-                    }));
+                    }))->merge($course->documents);
                 })
                 ->where('id', $document->id)
                 ->isNotEmpty()
@@ -55,7 +55,7 @@ class DocumentPolicy
                         return $lecture->documents;
                     })->merge($course->assignments->flatMap(function ($assignment) {
                         return $assignment->documents;
-                    }));
+                    }))->merge($course->documents);
                 })
                 ->where('id', $document->id)
                 ->isNotEmpty()

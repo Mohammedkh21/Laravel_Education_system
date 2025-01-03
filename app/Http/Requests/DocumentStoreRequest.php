@@ -13,11 +13,13 @@ class DocumentStoreRequest extends FormRequest
     {
         return [
             'files.*' => 'required|file|mimes:pdf,doc,docx,ppt,pptx|max:2048',
+            'title'=>'string',
+            'description'=>'string'
         ];
     }
 
     function getData()
     {
-        return $this->only(['files.*']);
+        return $this->only(['files.*','title','description']);
     }
 }

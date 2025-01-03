@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 class DocumentService
 {
 
+    function getAll($field)
+    {
+        return $field->documents;
+    }
+
     function download($document)
     {
         if (Storage::disk('public')->exists($document->path)) {

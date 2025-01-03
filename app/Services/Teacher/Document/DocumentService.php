@@ -34,6 +34,8 @@ class DocumentService
                 $documents[] =  $field->documents()->create([
                     'path'=> $path,
                     'type' => $file->getClientMimeType(),
+                    'title'=> $request->input('title'),
+                    'description'=> $request->input('description')
                 ]);
             }
             DB::commit();
