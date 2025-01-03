@@ -220,6 +220,10 @@ Route::prefix('student')->group(function (){
                         Route::post('/{quiz}/attempt',[\App\Http\Controllers\Student\Course\Quiz\QuizController::class,'submitAttempt']);
                     });
 
+                    Route::prefix('/documents')->group(function (){
+                        Route::get('/',[\App\Http\Controllers\Student\Course\Document\DocumentController::class,'index']);
+                        Route::get('/{document}',[\App\Http\Controllers\Student\Course\Document\DocumentController::class,'show']);
+                    });
 
                 });
         });
@@ -267,6 +271,8 @@ Route::prefix('teacher')->group(function (){
             ->except(['update']);
         Route::apiResource('courses.lectures',\App\Http\Controllers\Teacher\Course\Lectuer\LectureController::class);
         Route::apiResource('courses.advertisements',\App\Http\Controllers\Teacher\Course\Advertisement\AdvertisementController::class);
+        Route::apiResource('courses.documents', \App\Http\Controllers\Teacher\Course\Document\DocumentController::class)
+            ->except(['update']);
         Route::apiResource('courses',\App\Http\Controllers\Teacher\Course\CourseController::class);
     });
 });
