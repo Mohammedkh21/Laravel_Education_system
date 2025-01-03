@@ -34,7 +34,7 @@ class DocumentService
                 $documents[] =  $field->documents()->create([
                     'path'=> $path,
                     'type' => $file->getClientMimeType(),
-                    'title'=> $request->input('title'),
+                    'title'=> $request->input('title') ?? $file->getClientOriginalName(),
                     'description'=> $request->input('description')
                 ]);
             }
