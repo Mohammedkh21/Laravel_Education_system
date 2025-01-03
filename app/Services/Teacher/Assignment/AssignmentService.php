@@ -26,6 +26,10 @@ class AssignmentService
         $documents = [];
         DB::beginTransaction();
         $assignment = $course->assignments()->create($request->getData());
+        if ( !$request->has('files') ){
+            DB::commit();
+            return $assignment;
+        }
         try{
             foreach ($request->file('files') as $file) {
                 $fileName = time() . '_' . $file->getClientOriginalName();

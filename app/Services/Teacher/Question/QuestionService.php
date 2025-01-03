@@ -33,12 +33,12 @@ class QuestionService
     function store($quiz,$request)
     {
         $documents = [];
-        DB::beginTransaction();info(1);
+        DB::beginTransaction();
         $question = $quiz->questions()->create($request->getData());
         if ( !$request->has('files') ){
             DB::commit();
             return $question;
-        }info(2);
+        }
         try{
             foreach ($request->file('files') as $file) {
                 $fileName = time() . '_' . $file->getClientOriginalName();
