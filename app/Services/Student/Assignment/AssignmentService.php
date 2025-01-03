@@ -85,6 +85,8 @@ class AssignmentService
                 $documents[] =  $assignment->documents()->create([
                     'path'=> $path,
                     'type' => $file->getClientMimeType(),
+                    'title'=> $request->input('title') ?? $file->getClientOriginalName(),
+                    'description'=> $request->input('description')
                 ]);
             }
             DB::commit();
