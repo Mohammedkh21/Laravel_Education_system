@@ -20,9 +20,14 @@ class AssignmentService
 
     function show($course,$assignment)
     {
-        return $course->assignments()->visibility()->with('documents')->find($assignment->id)
+        $assignment = $course->assignments()->visibility()->with('documents')->find($assignment->id)
             ??
             throw new \Exception('you dont have access on this assignment',403);
+
+        $assignment->documents->each(function ($document) {
+            $document->url = url(Storage::url($document->path));
+        });
+        return $assignment;
     }
 
     function showSubmit($course,$assignment)
@@ -31,12 +36,16 @@ class AssignmentService
 
         $student = auth()->user();
 
-        return $student->assignments()
+        $assignment = $student->assignments()
             ->where('type', 'submit')
             ->where('related_to', $assignment->id)
             ->with('documents')
             ->with('grade')
             ->first();
+        $assignment->documents->each(function ($document) {
+            $document->url = url(Storage::url($document->path));
+        });
+        return $assignment;
     }
 
     function deleteSubmit($course,$assignment)

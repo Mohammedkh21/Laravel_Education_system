@@ -12,12 +12,21 @@ class AssignmentService
 
     function getAll($course)
     {
-        return $course->assignments()->with('documents')->get();
+        return $course->assignments()->with('documents')->get()
+            ->each(function ($assignment) {
+                $assignment->documents->each(function ($document) {
+                    $document->url = url(Storage::url($document->path));
+                });
+            });
     }
 
     function show($course,$assignment)
     {
-        return $course->assignments()->with('documents')->find($assignment->id);
+        $assignment = $course->assignments()->with('documents')->find($assignment->id);
+        $assignment->documents->each(function ($document) {
+            $document->url = url(Storage::url($document->path));
+        });
+        return $assignment;
     }
 
     function store($course,$request)
@@ -39,6 +48,7 @@ class AssignmentService
                 $documents[] =  $assignment->documents()->create([
                     'path'=> $path,
                     'type' => $file->getClientMimeType(),
+                    'title' => $request->input('title') ?? $file->getClientOriginalName()
                 ]);
             }
             DB::commit();
@@ -51,7 +61,14 @@ class AssignmentService
             }
             return  $e;
         }
-        return  Assignment::with('documents')->find($assignment->id);
+        collect($documents)->each(function ($document){
+            $document->url = url(Storage::url($document->path));
+        });
+//        return  Assignment::with('documents')->find($assignment->id);
+        return [
+            'assignment' => $assignment,
+            'documents' => $documents
+        ];
     }
 
     function update($assignment,$data)
@@ -72,7 +89,14 @@ class AssignmentService
                     $query->where('assignments.type', 'submit')
                     ->where('assignments.related_to', $assignment->id);
             },'assignments.documents','assignments.grade'])
-            ->get();
+            ->get()
+            ->each(function ($student) {
+                $student->assignments->each(function ($assignment) {
+                    $assignment->documents->each(function ($document) {
+                        $document->url = url(Storage::url($document->path));
+                    });
+                });
+            });
     }
 
     function downloadStudentSubmit($course,$assignment,$student)
