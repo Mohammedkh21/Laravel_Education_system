@@ -9,7 +9,10 @@ class DocumentService
 {
     function getAll($field)
     {
-        return $field->documents;
+        return $field->documents()->get()->each(function ($document) {
+            $document->url = url(Storage::url($document->path));
+        });
+            
     }
 
     function download($document)
