@@ -11,7 +11,7 @@ use App\Services\Authentication;
 class AuthService extends Authentication\AuthService
 {
 
-    function register($class,$data){
+    public function register($class,$data, $camp_id = null){
         $freePlan = SubscriptionPlan::where('name', 'free')->first();
         if (!$freePlan) {
             throw new \Exception('Subscription plan "free" not found.');
