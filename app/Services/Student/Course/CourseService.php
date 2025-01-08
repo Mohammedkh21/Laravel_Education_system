@@ -11,7 +11,7 @@ class CourseService
 
     function getAll()
     {
-        return auth()->user()->courses;
+        return auth()->user()->courses()->with('teacher')->get();
     }
 
     function join($course_id)
