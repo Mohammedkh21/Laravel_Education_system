@@ -17,7 +17,7 @@ class AuthController extends Controller
     {
     }
 
-    public function register(TeacherRegisterRequest $request){ info(1);
+    public function register(TeacherRegisterRequest $request){
         $student = $this->authService->register(
             Teacher::class,
             $request->getData(),
