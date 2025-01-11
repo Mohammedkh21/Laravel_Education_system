@@ -2,6 +2,7 @@
 
 namespace App\Services\Student\Quiz;
 
+use App\Models\QuizAttempt;
 use Illuminate\Support\Facades\Storage;
 
 class QuizService
@@ -99,5 +100,44 @@ class QuizService
         return true;
     }
 
+
+    function reviewAttempt($course,$quiz)
+    {
+        $student = auth()->user();
+
+        $quizAttempt = $student->quizAttempts()->whereHas('quiz', function ($query) use  ($quiz) {
+            $query->where('id', $quiz->id);
+        })->with('quiz.questions')->first();
+
+
+        $quizQuestions = $quizAttempt->quiz->questions->keyBy('id');
+
+        $attemptData = collect(json_decode($quizAttempt->data, true) ?? []);
+
+        $updatedData = $quizQuestions->map(function ($question) use ($attemptData) {
+            $studentAnswer = $attemptData->firstWhere('question_id', $question->id);
+
+            $documents= $question->documents->each(function ($document) {
+                $document->url = url(Storage::url($document->path));
+            });
+
+            return [
+                'question_id' => $question->id,
+                'title' => $question->title,
+                'type' => $question->type,
+                'options' => $question->options,
+                'correct_answer' => $question->correct_answer,
+                'mark' => $question->mark,
+                'student_answer' => $studentAnswer['answer'] ?? '',
+                'is_correct' => isset($studentAnswer['answer']) && $studentAnswer['answer'] === $question->correct_answer,
+                'documents' => $documents,
+            ];
+        });
+
+        $quizAttempt->data = $updatedData->values();
+//        $quizAttempt->makeHidden(["quiz"]);
+
+        return $quizAttempt;
+    }
 
 }
