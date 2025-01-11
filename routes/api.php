@@ -218,6 +218,7 @@ Route::prefix('student')->group(function (){
                         Route::get('/{quiz}',[\App\Http\Controllers\Student\Course\Quiz\QuizController::class,'show']);
                         Route::get('/{quiz}/attempt',[\App\Http\Controllers\Student\Course\Quiz\QuizController::class,'attempt']);
                         Route::post('/{quiz}/attempt',[\App\Http\Controllers\Student\Course\Quiz\QuizController::class,'submitAttempt']);
+                        Route::get('/{quiz}/review',[\App\Http\Controllers\Student\Course\Quiz\QuizController::class,'reviewAttempt']);
                     });
 
                     Route::prefix('/documents')->group(function (){

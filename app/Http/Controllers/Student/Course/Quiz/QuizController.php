@@ -44,4 +44,11 @@ class QuizController extends Controller
             $this->quizService->submitAttempt($request->input('questions'),$course,$quiz)
         );
     }
+
+    function reviewAttempt(Course $course,Quiz $quiz)
+    {
+        return response()->json(
+            $this->quizService->reviewAttempt($course,$quiz)
+        );
+    }
 }

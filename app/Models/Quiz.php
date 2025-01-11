@@ -19,6 +19,11 @@ class Quiz extends Model
         $query->where('visibility', true);
     }
 
+    public function scopeResultVisible(Builder $query): void
+    {
+        $query->where('result_visible', true);
+    }
+
     public function course(){
         return $this->belongsTo(Course::class);
     }
