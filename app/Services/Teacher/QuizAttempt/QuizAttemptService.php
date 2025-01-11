@@ -2,7 +2,9 @@
 
 namespace App\Services\Teacher\QuizAttempt;
 
+use App\Models\QuizAttempt;
 use App\Models\Student;
+use Illuminate\Support\Facades\Storage;
 
 class QuizAttemptService
 {
@@ -21,19 +23,33 @@ class QuizAttemptService
 
     function show($course, $quiz ,$quizAttempt)
     {
+        $quizQuestions = $quizAttempt->quiz->questions->keyBy('id');
 
-        $quizQuestions = $quiz->questions->keyBy('id');
+        $attemptData = collect(json_decode($quizAttempt->data, true) ?? []);
 
-        return $quiz->quizAttempts()->where('id',$quizAttempt->id)->get()->map(function ($attempt) use ($quizQuestions) {
-            $attempt->data = collect($attempt->data)->map(function ($dataItem) use ($quizQuestions) {
-                if (isset($dataItem['question_id']) && $quizQuestions->has($dataItem['question_id'])) {
-                    $dataItem['question'] = $quizQuestions[$dataItem['question_id']];
-                    unset($dataItem['question_id']);
-                }
-                return $dataItem;
+        $updatedData = $quizQuestions->map(function ($question) use ($attemptData) {
+            $studentAnswer = $attemptData->firstWhere('question_id', $question->id);
+
+            $documents= $question->documents->each(function ($document) {
+                $document->url = url(Storage::url($document->path));
             });
-            return $attempt;
-        })->first();
+            return [
+                'question_id' => $question->id,
+                'title' => $question->title,
+                'type' => $question->type,
+                'options' => $question->options,
+                'correct_answer' => $question->correct_answer,
+                'mark' => $question->mark,
+                'student_answer' => $studentAnswer['answer'] ?? '',
+                'is_correct' => isset($studentAnswer['answer']) && $studentAnswer['answer'] === $question->correct_answer,
+                'documents' => $documents,
+            ];
+        });
+
+        $quizAttempt->data = $updatedData->values();
+//        $quizAttempt->makeHidden(["quiz"]);
+
+        return $quizAttempt;
     }
 
     function updateDegree($course, $quiz ,$quizAttempt,$new_grade)
