@@ -42,9 +42,11 @@ class AssignmentService
             ->with('documents')
             ->with('grade')
             ->first();
-        $assignment->documents->each(function ($document) {
-            $document->url = url(Storage::url($document->path));
-        });
+        if ( $assignment ){
+            $assignment->documents->each(function ($document) {
+                $document->url = url(Storage::url($document->path));
+            });
+        }
         return $assignment;
     }
 
