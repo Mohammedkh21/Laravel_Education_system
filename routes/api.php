@@ -196,6 +196,9 @@ Route::prefix('student')->group(function (){
             Route::get('/contacts/{teacher}',[\App\Http\Controllers\Student\TeacherController::class,'contacts']);
         });
 
+        Route::get('/estimates/{course}',\App\Http\Controllers\Student\EstimatesController::class)
+            ->middleware('can:access,course');
+
         Route::prefix('courses')->group(function (){
             Route::get('/timeline',[\App\Http\Controllers\Student\Course\CourseController::class,'timeline']);
             Route::get('/',[\App\Http\Controllers\Student\Course\CourseController::class,'index']);
