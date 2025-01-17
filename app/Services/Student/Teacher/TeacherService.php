@@ -2,6 +2,8 @@
 
 namespace App\Services\Student\Teacher;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class TeacherService
 {
 
@@ -14,11 +16,13 @@ class TeacherService
 
     function getAll()
     {
-        return $this->user->teachers();
+        return $this->user->courses()->with(['teacher'])->get()->pluck('teacher');
     }
 
-    function contacts($teachers)
+    function contacts($teacher)
     {
-        return $this->user->teachers($teachers->id);
+        return $this->user->courses()->with(['teacher' => function($query) use ($teacher) {
+            $query->where('id', $teacher->id);
+        }])->get()->pluck('teacher')->filter()->first() ?? throw new \Exception('you dont related to this teacher ');
     }
 }
