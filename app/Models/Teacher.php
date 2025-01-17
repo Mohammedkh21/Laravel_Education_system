@@ -45,9 +45,8 @@ class Teacher extends Authenticatable
             'id'
         );
     }
-
-    function communications()
+    public function communications()
     {
-        return $this->hasMany(Communication::class);
+        return $this->morphMany(Communication::class, 'communicationable');
     }
 }

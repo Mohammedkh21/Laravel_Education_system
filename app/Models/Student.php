@@ -43,4 +43,9 @@ class Student extends Authenticatable
     {
         return $this->hasMany(QuizAttempt::class);
     }
+
+    public function communications()
+    {
+        return $this->morphMany(Communication::class, 'communicationable');
+    }
 }

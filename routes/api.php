@@ -184,6 +184,7 @@ Route::prefix('student')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\Notification\NotificationController::class,'index']);
             Route::get('/mark_as_read',[\App\Http\Controllers\Student\Notification\NotificationController::class,'markAsRead']);
         });
+        Route::apiResource('communications',\App\Http\Controllers\Teacher\CommunicationController::class);
         Route::prefix('camp')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\Camp\CampController::class,'show']);
             Route::get('/getAllJoinReq',[\App\Http\Controllers\Student\Camp\CampController::class,'getAllJoinRequest']);
@@ -248,7 +249,7 @@ Route::prefix('teacher')->group(function (){
             Route::get('/',[\App\Http\Controllers\Teacher\Notification\NotificationController::class,'index']);
             Route::get('/mark_as_read',[\App\Http\Controllers\Teacher\Notification\NotificationController::class,'markAsRead']);
         });
-        Route::apiResource('communications',\App\Http\Controllers\Teacher\ComunicationController::class);
+        Route::apiResource('communications',\App\Http\Controllers\Teacher\CommunicationController::class);
         Route::prefix('camps')->group(function (){
             Route::get('/',[\App\Http\Controllers\Teacher\Camp\CampController::class,'index']);
             Route::get('/show/{camp}',[\App\Http\Controllers\Teacher\Camp\CampController::class,'show']);

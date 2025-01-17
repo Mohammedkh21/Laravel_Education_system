@@ -1,27 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ComunicationStoreRequest;
 use App\Http\Requests\ComunicationUpdateRequest;
 use App\Models\Communication;
-use App\Services\Teacher\Comunication\CommunicationService;
-use Illuminate\Http\Request;
+use App\Services\Communication\CommunicationService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ComunicationController extends Controller
+class CommunicationController extends Controller   implements HasMiddleware
 {
-    public function __construct(public CommunicationService $communicationService)
-    {
-    }
+    //
+    protected CommunicationService $communicationService;
 
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:access,communication',only:['show','update','destroy'])
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return response()->json(
-            $this->communicationService->getAll(auth()->user()->id)
+            $this->communicationService->getAll()
         );
     }
 
@@ -31,7 +36,7 @@ class ComunicationController extends Controller
     public function store(ComunicationStoreRequest $request)
     {
         return response()->json(
-            $this->communicationService->store(auth()->user()->id,$request->getData())
+            $this->communicationService->store($request->getData())
         );
     }
 
@@ -41,7 +46,7 @@ class ComunicationController extends Controller
     public function show(Communication $communication)
     {
         return response()->json(
-            $communication
+            $this->communicationService->show($communication)
         );
     }
 
@@ -51,7 +56,7 @@ class ComunicationController extends Controller
     public function update(ComunicationUpdateRequest $request, Communication $communication)
     {
         return response()->json(
-            $this->communicationService->update(auth()->user()->id,$request->getData(),$communication)
+            $this->communicationService->update($request->getData(),$communication)
         );
     }
 
@@ -61,7 +66,7 @@ class ComunicationController extends Controller
     public function destroy(Communication $communication)
     {
         return response()->json(
-            $this->communicationService->delete(auth()->user()->id,$communication)
+            $this->communicationService->delete($communication)
         );
     }
 }
