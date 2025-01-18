@@ -51,4 +51,9 @@ class Admin extends Authenticatable
         return $this->belongsTo(SubscriptionPlan::class);
     }
 
+    public function communications()
+    {
+        return $this->morphMany(Communication::class, 'communicationable');
+    }
+
 }

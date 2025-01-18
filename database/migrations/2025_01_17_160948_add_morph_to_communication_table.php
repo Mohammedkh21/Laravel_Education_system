@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('communications', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->enum('type',['url','number']);
-            $table->string('content');
-            $table->timestamps();
+        \Illuminate\Support\Facades\DB::table('communications')->truncate();
+        Schema::table('communications', function (Blueprint $table) {
+            $table->morphs('communicationable');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('communications');
+        Schema::table('communications', function (Blueprint $table) {
+            $table->dropMorphs('communicationable');
+        });
     }
 };

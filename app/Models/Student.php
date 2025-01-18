@@ -43,4 +43,16 @@ class Student extends Authenticatable
     {
         return $this->hasMany(QuizAttempt::class);
     }
+
+    public function communications()
+    {
+        return $this->morphMany(Communication::class, 'communicationable');
+    }
+
+    public function teachers($id = null)
+    {
+        return $this->courses()->with(['teacher' => function($query) use ($id) {
+            $query->where('id', $id);
+        }])->get()->pluck('teacher')->filter()->first();
+    }
 }

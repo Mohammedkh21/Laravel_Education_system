@@ -13,8 +13,8 @@ class Communication extends Model
       'id','name','type','content','created_at','updated_at'
     ];
 
-    function teacher()
+    public function communicationable()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->morphTo();
     }
 }

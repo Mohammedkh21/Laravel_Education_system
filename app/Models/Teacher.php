@@ -37,17 +37,16 @@ class Teacher extends Authenticatable
     function students()
     {
         return $this->hasManyThrough(
-          Student::class,
-          Course::class,
-            'id',           // Foreign key on courses table
-            'id',           // Foreign key on students table
-            'id',           // Local key on teachers table
-            'id'
+            Student::class,
+            Course::class,
+            'teacher_id',      // Foreign key on the courses table
+            'id',              // Foreign key on the pivot table (course_student)
+            'id',              // Local key on the teachers table
+            'id'               // Local key on the courses table
         );
     }
-
-    function communications()
+    public function communications()
     {
-        return $this->hasMany(Communication::class);
+        return $this->morphMany(Communication::class, 'communicationable');
     }
 }
