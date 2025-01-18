@@ -23,6 +23,7 @@ class AuthController extends Controller
     public function authInfo(){
         return response()->json([
             'user'=>auth()->user(),
+            'camp'=>auth()->user()->camp,
             'type'=>class_basename(auth()->user())
         ]);
     }
