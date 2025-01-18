@@ -167,7 +167,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
 Route::get('authInfo',[\App\Http\Controllers\AuthController::class,'authInfo'])->middleware('auth:student,teacher');
 
-Route::prefix('student')->group(function (){
+Route::prefix('student')->name('student.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Student\AuthController::class,'register']);
 //    Route::post('login',[\App\Http\Controllers\Student\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
@@ -241,7 +241,7 @@ Route::prefix('student')->group(function (){
     });
 });
 
-Route::prefix('teacher')->group(function (){
+Route::prefix('teacher')->name('teacher.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Teacher\AuthController::class,'register']);
 //    Route::post('login',[\App\Http\Controllers\Teacher\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
@@ -292,10 +292,17 @@ Route::prefix('teacher')->group(function (){
         Route::apiResource('courses.documents', \App\Http\Controllers\Teacher\Course\Document\DocumentController::class)
             ->except(['update']);
         Route::apiResource('courses',\App\Http\Controllers\Teacher\Course\CourseController::class);
+
+        Route::prefix('student-estimates')->group(function (){
+            Route::redirect('/courses', route('teacher.courses.index'));
+            Route::get('/courses/{course}/students',[\App\Http\Controllers\Teacher\StudentController::class,'courseStudent']);
+            Route::get('/courses/{course}/students/{student}',[\App\Http\Controllers\Teacher\StudentController::class,'studentEstimates']);
+        });
+
     });
 });
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->name('admin.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Admin\AuthController::class,'register']);
     Route::post('login',[\App\Http\Controllers\Admin\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
