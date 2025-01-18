@@ -23,6 +23,6 @@ class TeacherService
     {
         return $this->user->courses()->with(['teacher' => function($query) use ($teacher) {
             $query->where('id', $teacher->id);
-        }])->get()->pluck('teacher')->filter()->first() ?? throw new \Exception('you dont related to this teacher ');
+        },'teacher.communications','teacher.courses'])->get()->pluck('teacher')->filter()->first() ?? throw new \Exception('you dont related to this teacher ');
     }
 }
