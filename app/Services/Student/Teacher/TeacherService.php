@@ -19,7 +19,7 @@ class TeacherService
         return $this->user->courses()->with(['teacher'])->get()->pluck('teacher');
     }
 
-    function contacts($teacher)
+    function show($teacher)
     {
         return $this->user->courses()->with(['teacher' => function($query) use ($teacher) {
             $query->where('id', $teacher->id);

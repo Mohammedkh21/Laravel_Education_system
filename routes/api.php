@@ -193,7 +193,7 @@ Route::prefix('student')->group(function (){
 
         Route::prefix('teachers')->group(function (){
             Route::get('/',[\App\Http\Controllers\Student\TeacherController::class,'index']);
-            Route::get('/contacts/{teacher}',[\App\Http\Controllers\Student\TeacherController::class,'contacts']);
+            Route::get('/show/{teacher}',[\App\Http\Controllers\Student\TeacherController::class,'show']);
         });
 
         Route::get('/estimates/{course}',\App\Http\Controllers\Student\EstimatesController::class)

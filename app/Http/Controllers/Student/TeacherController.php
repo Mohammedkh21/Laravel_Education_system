@@ -20,9 +20,9 @@ class TeacherController extends Controller
         );
     }
 
-    public function contacts(Teacher $teacher){
+    public function show(Teacher $teacher){
         return response()->json(
-            $this->teacherService->contacts($teacher)
+            $this->teacherService->show($teacher)
         );
     }
 }
