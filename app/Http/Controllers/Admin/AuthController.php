@@ -18,13 +18,11 @@ class AuthController extends Controller
     }
 
     public function register(AdminRegisterRequest $request){ info(1);
-         $data = $request->getData();
-                $admin = $this->authService->register(
-                    Admin::class,
-                    $data
-                );
-                return response()->json($admin);
-
+        $admin = $this->authService->register(
+            Admin::class,
+            $request->getData()
+        );
+        return response()->json($admin);
     }
 
     public function login(LoginRequest $request){
