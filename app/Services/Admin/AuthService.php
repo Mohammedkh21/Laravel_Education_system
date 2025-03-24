@@ -12,11 +12,7 @@ class AuthService extends Authentication\AuthService
 {
 
     public function register($class,$data, $camp_id = null){
-        $freePlan = SubscriptionPlan::where('name', 'free')->first();
-        if (!$freePlan) {
-            throw new \Exception('Subscription plan "free" not found.');
-        }
-
+        $freePlan = SubscriptionPlan::where('name', 'free')->firstOrFail();
         $data['password'] = Hash::make($data['password']);
         $admin = $class::create($data);
         $admin->subscriptionPlan()->associate($freePlan);

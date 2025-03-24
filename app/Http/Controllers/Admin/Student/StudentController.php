@@ -57,29 +57,4 @@ class StudentController implements HasMiddleware
     }
 
 
-    public function approveStudent(Request $request, $studentId)
-        {
-            $student = Student::findOrFail($studentId);
-            $student->status = 'approved';
-            $student->save();
-
-            return response()->json([
-                  'message' => 'Student has been approved successfully',
-                  'student' => $student
-             ], 200);
-        }
-
-    public function rejectStudent(Request $request, $studentId)
-        {
-            $student = Student::findOrFail($studentId);
-            $student->status = 'rejected';
-            $student->save();
-
-            return response()->json([
-                'message' => 'Student has been rejected',
-                'student' => $student
-            ], 200);
-
-        }
-
 }
