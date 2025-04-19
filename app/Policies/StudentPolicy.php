@@ -4,12 +4,34 @@ namespace App\Policies;
 
 use App\Models\Admin;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class StudentPolicy
 {
-    function access(Admin $admin,Student $student)
+    function access($user,Student $student)
+    {
+
+
+        if ($user instanceof Admin) {
+            return $this->adminAccess($user, $student);
+        }
+
+        if ($user instanceof Teacher) {
+            return $this->teacherAccess($user, $student);
+        }
+        return false;
+    }
+
+    private function teacherAccess(Teacher $teacher, Student $student)
+    {
+        return $teacher->students()->where('students.id',$student->id)->get()->isNotEmpty()
+            ? Response::allow()
+            : Response::deny('You do not have permission to access on this student');
+    }
+
+    private function adminAccess(Admin $admin, Student $student)
     {
         return $admin->students()->contains($student->id)
             ? Response::allow()

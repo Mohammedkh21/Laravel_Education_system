@@ -1,165 +1,4 @@
 <?php
-
-//use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Route;
-//
-//# Routes for Students
-//
-//Route::prefix('student')->group(function () {
-//
-//    // Authentication
-//    Route::post('register', [\App\Http\Controllers\Student\AuthController::class, 'register']);
-//    Route::post('login', [\App\Http\Controllers\Student\AuthController::class, 'login']);
-//
-//    // Password Reset
-//        Route::prefix('resit_password')->group(function () {
-//        Route::post('/otp', [\App\Http\Controllers\Student\AuthController::class, 'sendResitPasswordOTP']);
-//        Route::post('/check_otp', [\App\Http\Controllers\Student\AuthController::class, 'checkOTP']);
-//        Route::post('/', [\App\Http\Controllers\Student\AuthController::class, 'resitPassword']);
-//        });
-//
-//    // Protected Routes
-//       Route::middleware('auth:student')->group(function () {
-//
-//    // Basic Actions
-//    Route::post('logout', [\App\Http\Controllers\Student\AuthController::class, 'logout']);
-//    Route::get('index', [\App\Http\Controllers\Student\AuthController::class, 'index']);
-//    Route::post('update', [\App\Http\Controllers\Student\AuthController::class, 'update']);
-//
-//    // Notifications
-//    Route::prefix('notifications')->group(function () {
-//    Route::get('/', [\App\Http\Controllers\Student\Notification\NotificationController::class, 'index']);
-//    Route::get('/mark_as_read', [\App\Http\Controllers\Student\Notification\NotificationController::class, 'markAsRead']);
-//    });
-//
-//    // Camps
-//    Route::prefix('camp')->group(function () {
-//    Route::get('/', [\App\Http\Controllers\Student\Camp\CampController::class, 'show']);
-//    Route::get('/{camp}', [\App\Http\Controllers\Student\Camp\CampController::class, 'join']);
-//    });
-//
-//    // Courses
-//        Route::prefix('courses')->group(function () {
-//        Route::get('/timeline', [\App\Http\Controllers\Student\Course\CourseController::class, 'timeline']);
-//        Route::get('/', [\App\Http\Controllers\Student\Course\CourseController::class, 'index']);
-//        Route::get('/join/{course}', [\App\Http\Controllers\Student\Course\CourseController::class, 'join']);
-//        Route::get('/leave/{course}', [\App\Http\Controllers\Student\Course\CourseController::class, 'leave']);
-//        Route::get('/available', [\App\Http\Controllers\Student\Course\CourseController::class, 'available']);
-//
-//            Route::prefix('{course}')
-//                ->middleware('can:access,course')
-//                ->group(function () {
-//
-//        // Advertisements
-//        Route::get('advertisements', \App\Http\Controllers\Student\Course\Advertisement\AdvertisementController::class);
-//
-//        // Lectures
-//            Route::prefix('lectures')->group(function () {
-//            Route::get('/', [\App\Http\Controllers\Student\Course\Lecture\LectureController::class, 'index']);
-//            Route::get('/{lecture}', [\App\Http\Controllers\Student\Course\Lecture\LectureController::class, 'show']);
-//            Route::get('/documents/{document}', \App\Http\Controllers\Student\Course\Lecture\Document\DocumentController::class);
-//            });
-//
-//        // Assignments
-//            Route::prefix('assignments')->group(function () {
-//            Route::get('/', [\App\Http\Controllers\Student\Course\Assignment\AssignmentController::class, 'index']);
-//            Route::get('/{assignment}', [\App\Http\Controllers\Student\Course\Assignment\AssignmentController::class, 'show']);
-//            Route::post('/{assignment}/submit', [\App\Http\Controllers\Student\Course\Assignment\AssignmentController::class, 'submit']);
-//            Route::get('/{assignment}/submit', [\App\Http\Controllers\Student\Course\Assignment\AssignmentController::class, 'showSubmit']);
-//            Route::delete('/{assignment}/submit', [\App\Http\Controllers\Student\Course\Assignment\AssignmentController::class, 'deleteSubmit']);
-//            });
-//
-//        // Quizzes
-//            Route::prefix('quizzes')->group(function () {
-//            Route::get('/', [\App\Http\Controllers\Student\Course\Quiz\QuizController::class, 'index']);
-//            Route::get('/{quiz}', [\App\Http\Controllers\Student\Course\Quiz\QuizController::class, 'show']);
-//            Route::get('/{quiz}/attempt', [\App\Http\Controllers\Student\Course\Quiz\QuizController::class, 'attempt']);
-//            Route::post('/{quiz}/attempt', [\App\Http\Controllers\Student\Course\Quiz\QuizController::class, 'submitAttempt']);
-//            });
-//         });
-//        });
-//    });
-//});
-//
-//
-// # Routes for Teachers
-//
-//Route::prefix('teacher')->group(function () {
-//
-//    // Authentication
-//    Route::post('register', [\App\Http\Controllers\Teacher\AuthController::class, 'register']);
-//    Route::post('login', [\App\Http\Controllers\Teacher\AuthController::class, 'login']);
-//
-//    // Password Reset
-//    Route::prefix('resit_password')->group(function () {
-//        Route::post('/otp', [\App\Http\Controllers\Teacher\AuthController::class, 'sendResitPasswordOTP']);
-//        Route::post('/check_otp', [\App\Http\Controllers\Teacher\AuthController::class, 'checkOTP']);
-//        Route::post('/', [\App\Http\Controllers\Teacher\AuthController::class, 'resitPassword']);
-//    });
-//
-//    // Protected Routes
-//    Route::middleware('auth:teacher')->group(function () {
-//
-//        // Basic Actions
-//        Route::post('logout', [\App\Http\Controllers\Teacher\AuthController::class, 'logout']);
-//        Route::get('index', [\App\Http\Controllers\Teacher\AuthController::class, 'index']);
-//        Route::post('update', [\App\Http\Controllers\Teacher\AuthController::class, 'update']);
-//
-//        // Notifications
-//        Route::prefix('notifications')->group(function () {
-//        Route::get('/', [\App\Http\Controllers\Teacher\Notification\NotificationController::class, 'index']);
-//        Route::get('/mark_as_read', [\App\Http\Controllers\Teacher\Notification\NotificationController::class, 'markAsRead']);
-//        });
-//
-//        // Courses, Quizzes, and Assignments
-//        Route::apiResource('courses', \App\Http\Controllers\Teacher\Course\CourseController::class);
-//        Route::apiResource('courses.quizzes', \App\Http\Controllers\Teacher\Course\Quiz\QuizController::class);
-//        Route::apiResource('courses.quizzes.questions', \App\Http\Controllers\Teacher\Course\Quiz\Question\QuestionController::class);
-//        Route::apiResource('courses.assignments', \App\Http\Controllers\Teacher\Course\Assignment\AssignmentController::class);
-//    });
-//});
-//
-///* Routes for Admins */
-//
-//
-//Route::prefix('admin')->group(function () {
-//
-//    // Authentication
-//    Route::post('register', [\App\Http\Controllers\Admin\AuthController::class, 'register']);
-//    Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
-//
-//    // Password Reset
-//    Route::prefix('resit_password')->group(function () {
-//    Route::post('/otp', [\App\Http\Controllers\Admin\AuthController::class, 'sendResitPasswordOTP']);
-//    Route::post('/check_otp', [\App\Http\Controllers\Admin\AuthController::class, 'checkOTP']);
-//    Route::post('/', [\App\Http\Controllers\Admin\AuthController::class, 'resitPassword']);
-//    });
-//
-//    // Protected Routes
-//    Route::middleware('auth:admin')->group(function () {
-//
-//        // Basic Actions
-//        Route::post('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout']);
-//        Route::get('index', [\App\Http\Controllers\Admin\AuthController::class, 'index']);
-//        Route::post('update', [\App\Http\Controllers\Admin\AuthController::class, 'update']);
-//
-//        // Manage Camps
-//        Route::apiResource('camps', \App\Http\Controllers\Admin\Camp\CampController::class);
-//    });
-//});
-//
-//
-// # General Routes
-//
-//    Route::prefix('camp')->group(function () {
-//    Route::get('getAll', [\App\Http\Controllers\Camp\CampController::class, 'getAll']);
-//});
-
-
-///*
-//
-//<?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -167,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
 Route::get('authInfo',[\App\Http\Controllers\AuthController::class,'authInfo'])->middleware('auth:student,teacher');
 
-Route::prefix('student')->group(function (){
+Route::prefix('student')->name('student.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Student\AuthController::class,'register']);
 //    Route::post('login',[\App\Http\Controllers\Student\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
@@ -241,7 +80,7 @@ Route::prefix('student')->group(function (){
     });
 });
 
-Route::prefix('teacher')->group(function (){
+Route::prefix('teacher')->name('teacher.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Teacher\AuthController::class,'register']);
 //    Route::post('login',[\App\Http\Controllers\Teacher\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
@@ -292,10 +131,17 @@ Route::prefix('teacher')->group(function (){
         Route::apiResource('courses.documents', \App\Http\Controllers\Teacher\Course\Document\DocumentController::class)
             ->except(['update']);
         Route::apiResource('courses',\App\Http\Controllers\Teacher\Course\CourseController::class);
+
+        Route::prefix('student-estimates')->group(function (){
+            Route::redirect('/courses', route('teacher.courses.index'));
+            Route::get('/courses/{course}/students',[\App\Http\Controllers\Teacher\StudentController::class,'courseStudent']);
+            Route::get('/courses/{course}/students/{student}',[\App\Http\Controllers\Teacher\StudentController::class,'studentEstimates']);
+        });
+
     });
 });
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->name('admin.')->group(function (){
     Route::post('register',[\App\Http\Controllers\Admin\AuthController::class,'register']);
     Route::post('login',[\App\Http\Controllers\Admin\AuthController::class,'login']);
     Route::prefix('resit_password')->group(function (){
@@ -343,4 +189,3 @@ Route::prefix('camp')->group(function (){
 });
 
 
-//*/
